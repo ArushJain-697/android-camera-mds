@@ -4,6 +4,8 @@ public class DeviceInfoResponse {
 
     public String deviceInfo;
     public Error error;
+    /** SAJEEV: this device is a mock. Always true in this app. */
+    public boolean mock = true;
     public DeviceInfoResponse() { }
     public DeviceInfoResponse(String deviceInfo, Error error) {
         this.deviceInfo = deviceInfo;
