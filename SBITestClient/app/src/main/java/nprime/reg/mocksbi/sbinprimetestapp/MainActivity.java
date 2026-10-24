@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private void discover(){
         try{
             Intent intent = new Intent();
-            intent.setAction("sbi.reg.device");
+            intent.setAction("io.sbi.device");
 
             PackageManager packageManager = this.getPackageManager();
             List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void info(){
         Intent intent = new Intent();
-        intent.setAction(appID + ".info");
+        intent.setAction(appID + ".Info");
 
         PackageManager packageManager = this.getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         if(isIntentSafe) {
             String packageName;
             for (ResolveInfo activity : activities) {
-                if(activity.activityInfo.applicationInfo.packageName.equals(appID)) {
+                if(activity.activityInfo.applicationInfo.packageName.equals("io.mosip.mock.sbi")) {
                     packageName = activity.activityInfo.applicationInfo.packageName;
                     intent.setComponent(new ComponentName(packageName, activity.activityInfo.name));
                     startActivityForResult(intent, REQUEST_INFO);
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     private void capture(){
         try {
             Intent intent = new Intent();
-            intent.setAction(appID + ".rcapture");
+            intent.setAction(appID + ".rCapture");
 
             PackageManager packageManager = this.getPackageManager();
             List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String packageName;
                 for (ResolveInfo activity : activities) {
-                    if(activity.activityInfo.applicationInfo.packageName.equals(appID)) {
+                    if(activity.activityInfo.applicationInfo.packageName.equals("io.mosip.mock.sbi")) {
                         packageName = activity.activityInfo.applicationInfo.packageName;
                         intent.setComponent(new ComponentName(packageName, activity.activityInfo.name));
                         intent.putExtra("input", new ObjectMapper().writeValueAsBytes(captureRequestDto));
@@ -223,8 +223,8 @@ public class MainActivity extends AppCompatActivity {
             if(Activity.RESULT_OK == resultCode){
                 try{
                     if(null != data) {
-                        if (data.hasExtra("Response")) {
-                            String response = data.getStringExtra("Response");
+                        if (data.hasExtra("response")) {
+                            String response = new String(data.getByteArrayExtra("response"), java.nio.charset.StandardCharsets.UTF_8);
                             JSONArray respJsonArray = new JSONArray(response);
                             JSONObject respJsonObject = respJsonArray.getJSONObject(0);
                             JSONObject errorObject = respJsonObject.getJSONObject("error");
@@ -250,8 +250,8 @@ public class MainActivity extends AppCompatActivity {
             if(Activity.RESULT_OK == resultCode){
                 try {
                     if(null != data) {
-                        if (data.hasExtra("Response")) {
-                            String response = data.getStringExtra("Response");
+                        if (data.hasExtra("response")) {
+                            String response = new String(data.getByteArrayExtra("response"), java.nio.charset.StandardCharsets.UTF_8);
                             responseData = response;
                             JSONArray respJsonArray = new JSONArray(response);
                             JSONObject errorObject = respJsonArray.getJSONObject(0).getJSONObject("error");
