@@ -4,6 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- SAJEEV #50: only apps signed with the same key as this app can bind to the frame feed -->
+    <permission
+        android:name="io.mosip.mock.sbi.permission.FRAME_FEED"
+        android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <queries android:name="android.permission.QUERY_ALL_PACKAGES" />
@@ -45,6 +49,12 @@
             </intent-filter>
         </activity>
         <activity android:name="io.mosip.mock.sbi.device.CaptureActivity" />
+
+        <!-- SAJEEV #50: frame feed. Needs the signature-level permission above; not for other apps -->
+        <service
+            android:name="io.mosip.mock.sbi.feed.FrameFeedService"
+            android:exported="true"
+            android:permission="io.mosip.mock.sbi.permission.FRAME_FEED" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
